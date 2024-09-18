@@ -1,0 +1,63 @@
+version: '3.7'
+services:
+
+  # The Application Container
+  interview-showcase-app:
+    container_name: interview-showcase-app
+    image: interview-showcase-app
+    build:
+      context: ./
+      dockerfile: docker/app/Dockerfile
+    environment:
+      - "DB_DATABASE=app"
+      - "DB_USERNAME=laravel"
+      - "DB_HOST=interview-showcase-db"
+      - "DB_PASSWORD=supersecret"
+    working_dir: /var/www
+    ports:
+        - 9002:9000
+    networks:
+      - interview-showcase
+    volumes:
+      - ./:/var/www/
+    depends_on:
+      - interview-showcase-db
+
+  # The Web Server Container
+  interview-showcase-web:
+    container_name: interview-showcase-web
+    image: interview-showcase-web
+    build:
+      context: ./
+      dockerfile: docker/web/Dockerfile
+    networks:
+      - interview-showcase
+    ports:
+      - '${APP_PORT:-80}:80'
+      - '443:443'
+    volumes:
+      - ./public:/var/www/public
+    depends_on:
+      - interview-showcase-app
+
+  # The Database Container
+  interview-showcase-db:
+    container_name: interview-showcase-db
+    image: mysql:5.7
+    networks:
+      - interview-showcase
+    ports:
+      - '33065:3306'
+    volumes:
+      - interview-showcase-db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: supersecret
+      MYSQL_DATABASE: app
+
+volumes:
+  interview-showcase-db:
+
+networks:
+  interview-showcase:

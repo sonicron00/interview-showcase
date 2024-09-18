@@ -1,0 +1,1 @@
+{"version":1,"defects":{"Tests\\Unit\\Controllers\\QuestionControllerTest::testGetQuestionsReturnsArray":4},"times":{"Tests\\Unit\\Controllers\\QuestionControllerTest::testGetQuestionsReturnsArray":0.324,"Tests\\Unit\\Services\\QuestionServiceTest::testGetAllQuestionsReturnsArray":0.084}}
