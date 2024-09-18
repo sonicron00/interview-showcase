@@ -1,5 +1,4 @@
-# Basic Showcase Application
-## Tech Assessment by Ryan Smith
+## Basic Showcase Application
 <br>
 
 
